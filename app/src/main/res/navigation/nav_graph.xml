@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/medicineFragment">
+
+    <fragment
+        android:id="@+id/doctorsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.DoctorsFragment"
+        android:label="fragment_doctors"
+        tools:layout="@layout/fragment_doctors" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/healthFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.HealthFragment"
+        android:label="fragment_health"
+        tools:layout="@layout/fragment_health" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/medicineFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedicineFragment"
+        android:label="fragment_medicine"
+        tools:layout="@layout/fragment_medicine" />
+    <fragment
+        android:id="@+id/medsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedsFragment"
+        android:label="fragment_meds"
+        tools:layout="@layout/fragment_meds" />
+    <fragment
+        android:id="@+id/pinFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.PinFragment"
+        android:label="fragment_pin"
+        tools:layout="@layout/fragment_pin" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ReportFragment"
+        android:label="fragment_report"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+</navigation>

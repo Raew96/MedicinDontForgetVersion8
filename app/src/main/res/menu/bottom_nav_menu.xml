@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/medicineFragment"
+        android:title="Medicine"
+        android:icon="@drawable/ic_medicine"/>
+    <item
+        android:id="@+id/healthFragment"
+        android:title="Health"
+        android:icon="@drawable/ic_health"/>
+    <item
+        android:id="@+id/statisticsFragment"
+        android:title="Statistics"
+        android:icon="@drawable/ic_statistics" />
+</menu>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/profileFragment"
+            android:title="Your profile" />
+        <item
+            android:id="@+id/medicineFragment"
+            android:title="Home" />
+        <item
+            android:id="@+id/doctorsFragment"
+            android:title="Doctors" />
+        <item
+            android:id="@+id/medsFragment"
+            android:title="Meds List" />
+
+        <item
+            android:id="@+id/reportFragment"
+            android:title="Your Reports" />
+    </group>
+
+</menu>
