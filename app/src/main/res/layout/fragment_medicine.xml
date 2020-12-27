@@ -5,17 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.MedicineFragment">
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#3F51B5">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Medicine"
-            android:textSize="40sp" />
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO Step 7: Create a custom background for imageview in user profile screen.-->
+<!--START-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <stroke
+        android:width="5dp"
+        android:color="@color/darkGray"/>
+
+    <corners android:radius="1dp" />
+</shape>
+    <!--END-->

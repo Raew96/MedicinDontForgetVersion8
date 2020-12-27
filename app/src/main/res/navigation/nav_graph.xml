@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/medicineFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/doctorsFragment"
@@ -24,7 +24,22 @@
         android:id="@+id/loginFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_medicineFragment"
+            app:destination="@id/medicineFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/medicineFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedicineFragment"
@@ -44,12 +59,20 @@
         android:id="@+id/profileFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ReportFragment"
@@ -60,4 +83,16 @@
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.rafalbiarda.medcinedontforgetversion8.models.User" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_medicineFragment"
+            app:destination="@id/medicineFragment" />
+    </fragment>
 </navigation>

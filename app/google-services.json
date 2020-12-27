@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "597547221460",
+    "project_id": "medcinedontforgetversion8",
+    "storage_bucket": "medcinedontforgetversion8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597547221460:android:e4933295b7bd654471d641",
+        "android_client_info": {
+          "package_name": "com.rafalbiarda.medcinedontforgetversion8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597547221460-611om9ddbtlr7ee2hcfd7cjhq33ncseb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzSoFf5eB5s7Vw8S08uX_zBkvWl6JTnKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597547221460-611om9ddbtlr7ee2hcfd7cjhq33ncseb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
