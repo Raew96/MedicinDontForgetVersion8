@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.MedicineListFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv__detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/white"
+                android:contentDescription="image"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_user_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextViewBold
+                android:id="@+id/tv_doctor_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Doctor Name"
+                android:textColor="@color/primaryColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv__detail_image" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextView
+                android:id="@+id/tv_doctor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_doctor_name_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_doctor_name_label" />
+
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextViewBold
+                android:id="@+id/tv_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Email"
+                android:textColor="@color/primaryColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_doctor_name_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_doctor_name" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_email_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_email_label" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextViewBold
+                android:id="@+id/tv_phone_number_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Phone Number"
+                android:textColor="@color/primaryColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_doctor_name_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_email" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextView
+                android:id="@+id/tv_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_phone_number_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone_number_label" />
+
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextViewBold
+                android:id="@+id/tv_specialization_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Specialization"
+                android:textColor="@color/primaryColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_doctor_name_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone_number" />
+
+            <com.rafalbiarda.medcinedontforgetversion8.util.MDFTextView
+                android:id="@+id/tv_specialization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:text="..."
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_specialization_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_specialization_label" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

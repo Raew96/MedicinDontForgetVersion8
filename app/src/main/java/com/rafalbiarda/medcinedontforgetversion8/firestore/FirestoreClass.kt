@@ -6,17 +6,17 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.rafalbiarda.medcinedontforgetversion8.models.User
-import com.rafalbiarda.medcinedontforgetversion8.ui.fragments.EditProfileFragment
-import com.rafalbiarda.medcinedontforgetversion8.ui.fragments.LoginFragment
-import com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ProfileFragment
-import com.rafalbiarda.medcinedontforgetversion8.ui.fragments.RegisterFragment
+import com.rafalbiarda.medcinedontforgetversion8.models.*
+import com.rafalbiarda.medcinedontforgetversion8.ui.fragments.*
 import com.rafalbiarda.medcinedontforgetversion8.util.Constants
+import java.util.*
+import kotlin.collections.HashMap
 
 class FirestoreClass {
 
@@ -31,8 +31,7 @@ class FirestoreClass {
             // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge later on instead of replacing the fields.
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
-
-                // Here call a function of base activity for transferring the result to it.
+                // Here calnction of base activity for transferring the result to it.
                 fragment.userRegistrationSuccess()
             }
             .addOnFailureListener { _ ->
@@ -66,8 +65,10 @@ class FirestoreClass {
 
                 Log.i(fragment.javaClass.simpleName, document.toString())
 
+
                 // Here we have received the document snapshot which is converted into the User Data model object.
                 val user = document.toObject(User::class.java)!!
+
 
                 val sharedPreferences =
                     fragment.requireActivity().getSharedPreferences(
@@ -94,8 +95,6 @@ class FirestoreClass {
                     {
                         fragment.userDetailsSuccess(user)
                     }
-
-
                 }
                 // END
             }
@@ -150,6 +149,131 @@ class FirestoreClass {
                 )
             }
     }
+
+    fun addDoctorToUserDoctorList(doctor: Doctor)
+    {
+        val cardsRef = mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID()).collection("DoctorList")
+
+        cardsRef.document().set(doctor, SetOptions.merge())
+    }
+
+
+    fun AddMedcineReminder(date: Date, cardList: List<Card>, medicineReminderList: List<MedicineReminder>)
+    {
+        if(cardList.any{
+                isSameDay(it.date!!, date)
+            })
+        {
+            Log.e("Test", "Contains")
+        }
+        else
+        {
+            val cardsRef = mFireStore.collection(Constants.USERS)
+                .document(getCurrentUserID()).collection("CalendarCards")
+
+            val card = Card(date = date, medicineReminderList = medicineReminderList)
+
+            cardsRef.document().set(card, SetOptions.merge())
+        }
+    }
+
+    fun isSameDay(date1: Date, date2: Date): Boolean
+    {
+        val cal1 = Calendar.getInstance()
+        val cal2 = Calendar.getInstance()
+        cal1.time = date1
+        cal2.time = date2
+
+        return cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+
+    }
+
+
+    fun addMedicineToUserList(medicine: Medicine)
+    {
+        val cardsRef = mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID()).collection("MedicineList")
+
+        cardsRef.document().set(medicine, SetOptions.merge())
+    }
+
+
+    fun testing()
+    {
+        //Adding subcollections in firestore
+        val cardsRef = mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID()).collection("CalendarCards")
+
+        val med = Medicine(null, "Aspiryna", "Aspirytex", "some instructions", 60, "table")
+
+        val medRem = MedicineReminder(medicine = med)
+        val medlist = listOf(medRem,medRem,medRem)
+
+        val time = Calendar.getInstance()
+        val card1 = Card(date = time.time, medicineReminderList = medlist)
+
+        time.add(Calendar.DAY_OF_YEAR, -1)
+        val card2 = Card(date = time.time, medicineReminderList = medlist)
+
+        time.add(Calendar.DAY_OF_YEAR, -2)
+        val card3 = Card(date = time.time, medicineReminderList = medlist)
+
+
+        cardsRef.document().set(card1, SetOptions.merge())
+        cardsRef.document().set(card2, SetOptions.merge())
+        cardsRef.document().set(card3, SetOptions.merge())
+    }
+    fun testing2()
+    {
+
+       /* //Adding subcollections in firestore
+        val cardsRef = mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID()).collection("CalendarCards").get().addOnSuccessListener {
+
+                for(i in it.documents)
+                {
+                    val cardsRef2 = mFireStore.collection(Constants.USERS)
+                        .document(getCurrentUserID()).collection("CalendarCards").document(i.id).collection("MedicineReminders")
+
+                    val med = Medicine(null, "Aspiryna", "Aspirytex", "some instructions", 60, 2, "table")
+                    //val medRem = MedicineReminder(Calendar.getInstance().time, "med")
+                    cardsRef2.document().set(medRem, SetOptions.merge())
+                }
+            }
+*/
+    }
+
+    fun test3(fragment: Fragment) : List<MedicineReminder>
+    {
+        Log.e(fragment.javaClass.simpleName, "Elo" )
+        val reminderList = mutableListOf<MedicineReminder>()
+        val cardsRef = mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID()).collection("CalendarCards").get().addOnCompleteListener(
+                OnCompleteListener {
+
+                    task ->
+
+                    if(task.isSuccessful)
+                    {
+                        val myList = task.getResult()!!.documents
+
+                        myList.forEach {
+
+                            val reminder = it.toObject(MedicineReminder::class.java)!!
+
+                            Log.d("Test", "${reminder.date.toString()}")
+
+                            reminderList.add(reminder)
+                        }
+
+                    }
+
+                })
+        return reminderList
+    }
+
 
     fun uploadImageToCloudStorage(activity: Activity, fragment: Fragment, imageFileURI: Uri?) {
 

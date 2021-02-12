@@ -69,4 +69,10 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //SearchableSpinner
+    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+
+    //SmileRating
+    implementation 'com.github.sujithkanna:smileyrating:2.0.0'
 }

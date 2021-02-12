@@ -7,9 +7,16 @@
 
     <fragment
         android:id="@+id/doctorsFragment"
-        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.DoctorsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.DoctorsListFragment"
         android:label="fragment_doctors"
-        tools:layout="@layout/fragment_doctors" />
+        tools:layout="@layout/fragment_doctors_list" >
+        <action
+            android:id="@+id/action_doctorsFragment_to_addDoctorsFragment"
+            app:destination="@id/addDoctorsFragment" />
+        <action
+            android:id="@+id/action_doctorsFragment_to_doctorDetailFragment"
+            app:destination="@id/doctorDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.ForgotPasswordFragment"
@@ -44,12 +51,20 @@
         android:id="@+id/medicineFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedicineFragment"
         android:label="fragment_medicine"
-        tools:layout="@layout/fragment_medicine" />
+        tools:layout="@layout/fragment_medicine" >
+        <action
+            android:id="@+id/action_medicineFragment_to_addMedicineFragment"
+            app:destination="@id/addMedicineFragment" />
+    </fragment>
     <fragment
         android:id="@+id/medsFragment"
-        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedicineListFragment"
         android:label="fragment_meds"
-        tools:layout="@layout/fragment_meds" />
+        tools:layout="@layout/fragment_medicine_list" >
+        <action
+            android:id="@+id/action_medsFragment_to_medicineDetailFragment"
+            app:destination="@id/medicineDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pinFragment"
         android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.PinFragment"
@@ -94,5 +109,30 @@
         <action
             android:id="@+id/action_editProfileFragment_to_medicineFragment"
             app:destination="@id/medicineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMedicineFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.AddMedicineFragment"
+        android:label="fragment_add_medicine"
+        tools:layout="@layout/fragment_add_medicine" />
+    <fragment
+        android:id="@+id/medicineDetailFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.MedicineDetailFragment"
+        android:label="MedicineDetailFragment" >
+        <argument
+            android:name="medicine"
+            app:argType="com.rafalbiarda.medcinedontforgetversion8.models.Medicine" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDoctorsFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.AddDoctorsFragment"
+        android:label="AddDoctorsFragment" />
+    <fragment
+        android:id="@+id/doctorDetailFragment"
+        android:name="com.rafalbiarda.medcinedontforgetversion8.ui.fragments.DoctorDetailFragment"
+        android:label="DoctorDetailFragment" >
+        <argument
+            android:name="doctor"
+            app:argType="com.rafalbiarda.medcinedontforgetversion8.models.Doctor" />
     </fragment>
 </navigation>

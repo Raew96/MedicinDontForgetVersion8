@@ -9,12 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
+import com.rafalbiarda.medcinedontforgetversion8.adapters.DiseaseAdapter
 import com.rafalbiarda.medcinedontforgetversion8.adapters.MoodAdapter
+import com.rafalbiarda.medcinedontforgetversion8.models.Disease
 import com.rafalbiarda.medcinedontforgetversion8.models.Mood
+import com.rafalbiarda.medcinedontforgetversion8.other.MoodCustomDialog
+import com.rafalbiarda.medcinedontforgetversion8.other.MoodCustomDialogListener
 import kotlinx.android.synthetic.main.fragment_health.*
+import java.util.*
 
 
 class HealthFragment : Fragment() {
+
+    private val mMoodAdapter by lazy { MoodAdapter() }
+    private val mDiseaseAdapter by lazy { DiseaseAdapter(requireContext()) }
+    private var moodList = mutableListOf<Mood>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,13 +36,56 @@ class HealthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var tempList = mutableListOf<Disease>()
 
-        val mood1 = Mood("8:00", 8)
-        val mood2 = Mood("12:00", 1)
-        val mood3 = Mood("18:00", 10)
-        val adapter = MoodAdapter(listOf(mood1,mood2,mood3))
-        rv_mood.layoutManager = LinearLayoutManager(context)
-        rv_mood.adapter = adapter
+        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
+        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
+        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
+
+        mDiseaseAdapter.setData(tempList)
+
+        setMoodAdapter()
+        setDisease()
+
+        btn_pick_mood.setOnClickListener {
+            MoodCustomDialog(requireContext(), object  : MoodCustomDialogListener
+            {
+                override fun onAddButtonClicked(ratings: Int) {
+
+                    val calendar = Calendar.getInstance()
+                    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                    val minutes = calendar.get(Calendar.MINUTE)
+                    val mood = Mood("$hour:$minutes", ratings)
+                    moodList.add(mood)
+                    mMoodAdapter.setData(moodList)
+                    setMoodAdapter()
+                }
+
+            }).show()
+        }
+
+
+        btn_sleep.setOnClickListener {
+
+            MoodCustomDialog(requireContext(), object  : MoodCustomDialogListener
+            {
+                override fun onAddButtonClicked(ratings: Int) {
+
+                    when(ratings)
+                    {
+                        0 -> tv_sleep_quality.text = "Not picked"
+                        1 -> tv_sleep_quality.text = "Terrible"
+                        2 -> tv_sleep_quality.text = "Bad"
+                        3 -> tv_sleep_quality.text = "Okay"
+                        4 -> tv_sleep_quality.text = "Good"
+                        5 -> tv_sleep_quality.text = "Great"
+                    }
+                    tv_sleep_quality.visibility = View.VISIBLE
+                }
+
+            }).show()
+
+        }
 
         iv_mood_arrow.setOnClickListener {
             if(hiden_layout.visibility == View.GONE)
@@ -76,6 +129,18 @@ class HealthFragment : Fragment() {
                 iv_disease_arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
             }
         }
+    }
+
+    fun setMoodAdapter()
+    {
+        rv_mood.adapter = mMoodAdapter
+        rv_mood.layoutManager = LinearLayoutManager(context)
+    }
+
+    fun setDisease()
+    {
+        rv_disease.adapter = mDiseaseAdapter
+        rv_disease.layoutManager = LinearLayoutManager(context)
     }
 
 }

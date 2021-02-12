@@ -60,7 +60,6 @@ class EditProfileFragment : BaseFragment(), View.OnClickListener {
             rb_female.isChecked = true
         }
 
-
         iv_user_photo.setOnClickListener(this)
         btn_save.setOnClickListener(this)
 

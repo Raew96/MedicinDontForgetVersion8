@@ -1,0 +1,38 @@
+package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+import androidx.navigation.fragment.navArgs
+
+import com.rafalbiarda.medcinedontforgetversion8.R
+import kotlinx.android.synthetic.main.fragment_doctor_detail.*
+
+
+class DoctorDetailFragment : Fragment() {
+
+    val args: DoctorDetailFragmentArgs by navArgs()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_doctor_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val doctor = args.doctor
+
+        tv_doctor_name.text = doctor.firstName + " " + doctor.lastName
+        tv_email.text = doctor.email
+        tv_phone_number.text = doctor.mobile.toString()
+        tv_specialization.text = doctor.specialization
+    }
+
+}
