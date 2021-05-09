@@ -5,15 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.MedicineListAdapter
-import com.rafalbiarda.medcinedontforgetversion8.adapters.ReminderAdapter
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_medcine_detail.*
-import kotlinx.android.synthetic.main.fragment_medicine_list.*
 
 
 class MedicineDetailFragment : Fragment() {

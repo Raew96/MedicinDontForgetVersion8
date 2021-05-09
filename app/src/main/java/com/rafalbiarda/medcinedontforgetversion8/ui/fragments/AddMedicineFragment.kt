@@ -1,30 +1,33 @@
 package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.transition.AutoTransition
 import android.transition.TransitionManager
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.HourItemAdapter
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.Card
-import com.rafalbiarda.medcinedontforgetversion8.models.Medicine
-import com.rafalbiarda.medcinedontforgetversion8.models.MedicineReminder
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
+import com.rafalbiarda.medcinedontforgetversion8.util.adapters.HourItemAdapter
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.Card
+import com.rafalbiarda.medcinedontforgetversion8.model.Medicine
+import com.rafalbiarda.medcinedontforgetversion8.model.MedicineReminder
+import com.rafalbiarda.medcinedontforgetversion8.ui.activity.MainActivity
+import com.rafalbiarda.medcinedontforgetversion8.util.ReminderBroadcast
+import com.rafalbiarda.medcinedontforgetversion8.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_add_medicine.*
 import kotlinx.android.synthetic.main.fragment_add_medicine.view.*
-import kotlinx.android.synthetic.main.fragment_medicine.*
 import kotlinx.android.synthetic.main.item_add_medicne_hour.view.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,7 +36,7 @@ class AddMedicineFragment : BaseFragment() {
 
     lateinit var viewModel: MainViewModel
 
-    lateinit var listOfCards: List<Card>
+    var listOfCards: List<Card> = listOf()
 
     lateinit var mAdapter: HourItemAdapter
 
@@ -53,6 +56,8 @@ class AddMedicineFragment : BaseFragment() {
         viewModel.getUserCards().observe(viewLifecycleOwner, { cards ->
             listOfCards = cards
         })
+
+        (activity as MainActivity).setToolbar("Add Medicine")
 
         val calendar = Calendar.getInstance()
         var y = calendar.get(Calendar.YEAR)
@@ -141,13 +146,24 @@ class AddMedicineFragment : BaseFragment() {
             {
                 showToast("Medicine Added and sheduler")
 
-                val formatter = SimpleDateFormat("dd/m/yy", Locale.getDefault())
-                val formatter2 = SimpleDateFormat("dd/m/yy HH:mm", Locale.getDefault())
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val formatter2 = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                 val date = formatter.parse(btn_start_date.text.toString())
                 var listOfMedicineReminder = mutableListOf<MedicineReminder>()
 
                 val medicineName = et_medicine_name.text.toString().trim() { it <= ' ' }
-                val med = Medicine(name = medicineName)
+                val medicineProducer = et_producer_name.text.toString().trim() { it <= ' '}
+                val medicineInstruction = et_instructions.text.toString().trim() { it <= ' '}
+                val medicineDoseType = searchableSpinner.selectedItem.toString()
+                val medicineAmount = et_amount_of_medicine.text.toString().trim() { it <= ' '}
+
+                val med = Medicine(
+                    name = medicineName,
+                    producerName = medicineProducer,
+                    medicine_instructions = medicineInstruction,
+                    doseType = medicineDoseType,
+                    amount = medicineAmount.toInt()
+                )
 
 
                 for(i in 0 until mAdapter.list.size) {
@@ -156,9 +172,12 @@ class AddMedicineFragment : BaseFragment() {
                     val timeAndDate = btn_start_date.text.toString() + " " + time
                     val medicineReminderDate = formatter2.parse(timeAndDate)
                     listOfMedicineReminder.add(MedicineReminder(date = medicineReminderDate, medicine = med))
-                    Log.e("Test1", timeAndDate)
                 }
-                FirestoreClass().AddMedcineReminder(date, listOfCards, listOfMedicineReminder)
+                FirestoreClass().AddMedicineReminder(date, listOfCards, listOfMedicineReminder)
+                addNotificationReminder()
+
+                findNavController().navigate(R.id.action_addMedicineFragment_to_medicineFragment)
+
             }
             else if(validateAddMedicine())
             {
@@ -172,6 +191,8 @@ class AddMedicineFragment : BaseFragment() {
 
 
                 FirestoreClass().addMedicineToUserList(med)
+
+                findNavController().navigate(R.id.action_addMedicineFragment_to_medicineFragment)
             }
         }
     }
@@ -211,6 +232,22 @@ class AddMedicineFragment : BaseFragment() {
         {
             return false
         }
+    }
+
+
+    private fun addNotificationReminder()
+    {
+        val intent = Intent(context, ReminderBroadcast::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val timeAtButtonClick = System.currentTimeMillis()
+
+        val tenSecondsInMillis = 10000
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000, pendingIntent)
+
     }
 
 

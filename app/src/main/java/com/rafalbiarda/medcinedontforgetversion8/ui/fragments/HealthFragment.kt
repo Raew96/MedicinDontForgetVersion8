@@ -7,23 +7,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.DiseaseAdapter
-import com.rafalbiarda.medcinedontforgetversion8.adapters.MoodAdapter
-import com.rafalbiarda.medcinedontforgetversion8.models.Disease
-import com.rafalbiarda.medcinedontforgetversion8.models.Mood
+import com.rafalbiarda.medcinedontforgetversion8.util.adapters.DiseaseAdapter
+import com.rafalbiarda.medcinedontforgetversion8.util.adapters.MoodAdapter
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.Card
+import com.rafalbiarda.medcinedontforgetversion8.model.Disease
+import com.rafalbiarda.medcinedontforgetversion8.model.Mood
+import com.rafalbiarda.medcinedontforgetversion8.other.AddEditDiseaseDialog
+import com.rafalbiarda.medcinedontforgetversion8.other.AddEditDiseaseDialogListener
 import com.rafalbiarda.medcinedontforgetversion8.other.MoodCustomDialog
 import com.rafalbiarda.medcinedontforgetversion8.other.MoodCustomDialogListener
+import com.rafalbiarda.medcinedontforgetversion8.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_health.*
 import java.util.*
 
 
 class HealthFragment : Fragment() {
 
+    lateinit var viewModel : MainViewModel
+    lateinit var cardListHealthFragment: List<Card>
+
     private val mMoodAdapter by lazy { MoodAdapter() }
     private val mDiseaseAdapter by lazy { DiseaseAdapter(requireContext()) }
-    private var moodList = mutableListOf<Mood>()
+    private var dateSetByUser = Date()
+    private var actualCard = Card()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,17 +47,55 @@ class HealthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var tempList = mutableListOf<Disease>()
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        setMoodAndDiseaseAdapter()
 
-        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
-        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
-        tempList.add(Disease("Covid", listOf("Cough", "faver", "sth")))
+        viewModel.getUserCards().observe(viewLifecycleOwner, {thiss ->
+            cardListHealthFragment = thiss
 
-        mDiseaseAdapter.setData(tempList)
+            cardListHealthFragment.forEach {
 
-        setMoodAdapter()
-        setDisease()
+                if (dateSetByUser == it.date) {
+                    mMoodAdapter.setData(it.health.mood)
+                    mDiseaseAdapter.setData(it.health.diseases)
+                    setMoodAndDiseaseAdapter()
+                }
+            }
+        })
 
+        viewModel.dateSetByUser.observe(viewLifecycleOwner, { thiss ->
+            dateSetByUser = thiss
+
+            var thisDayHaveACard = false
+            cardListHealthFragment.forEach {
+
+                if(dateSetByUser == it.date)
+                {
+                    thisDayHaveACard = true
+                    actualCard = it
+                    mMoodAdapter.setData(it.health.mood)
+                    mDiseaseAdapter.setData(it.health.diseases)
+                    tv_sleep_quality.text = it.health.sleep
+                    tv_sleep_quality.visibility = View.VISIBLE
+                    setMoodAndDiseaseAdapter()
+                }
+            }
+
+            if(!thisDayHaveACard)
+            {
+                actualCard = Card()
+                mMoodAdapter.setData(listOf())
+                mDiseaseAdapter.setData(listOf())
+                mMoodAdapter.notifyDataSetChanged()
+                mDiseaseAdapter.notifyDataSetChanged()
+                setMoodAndDiseaseAdapter()
+                tv_sleep_quality.visibility = View.GONE
+            }
+
+        })
+
+
+        
         btn_pick_mood.setOnClickListener {
             MoodCustomDialog(requireContext(), object  : MoodCustomDialogListener
             {
@@ -56,9 +105,14 @@ class HealthFragment : Fragment() {
                     val hour = calendar.get(Calendar.HOUR_OF_DAY)
                     val minutes = calendar.get(Calendar.MINUTE)
                     val mood = Mood("$hour:$minutes", ratings)
-                    moodList.add(mood)
-                    mMoodAdapter.setData(moodList)
-                    setMoodAdapter()
+                    var mutableMoodList = mutableListOf<Mood>()
+                    actualCard.date = dateSetByUser
+                    actualCard.health.mood.forEach {
+                        mutableMoodList.add(it)
+                    }
+                    mutableMoodList.add(mood)
+                    actualCard.health.mood = mutableMoodList
+                    FirestoreClass().addHealth(actualCard)
                 }
 
             }).show()
@@ -70,21 +124,23 @@ class HealthFragment : Fragment() {
             MoodCustomDialog(requireContext(), object  : MoodCustomDialogListener
             {
                 override fun onAddButtonClicked(ratings: Int) {
-
+                    var strRatings = ""
                     when(ratings)
                     {
-                        0 -> tv_sleep_quality.text = "Not picked"
-                        1 -> tv_sleep_quality.text = "Terrible"
-                        2 -> tv_sleep_quality.text = "Bad"
-                        3 -> tv_sleep_quality.text = "Okay"
-                        4 -> tv_sleep_quality.text = "Good"
-                        5 -> tv_sleep_quality.text = "Great"
+                        0 -> strRatings = "Not picked"
+                        1 -> strRatings = "Terrible"
+                        2 -> strRatings = "Bad"
+                        3 -> strRatings = "Okay"
+                        4 -> strRatings = "Good"
+                        5 -> strRatings = "Great"
                     }
+                    tv_sleep_quality.text = strRatings
                     tv_sleep_quality.visibility = View.VISIBLE
+                    actualCard.date = dateSetByUser
+                    actualCard.health.sleep = strRatings
+                    FirestoreClass().addHealth(actualCard)
                 }
-
             }).show()
-
         }
 
         iv_mood_arrow.setOnClickListener {
@@ -129,18 +185,35 @@ class HealthFragment : Fragment() {
                 iv_disease_arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
             }
         }
+        iv_add_disease.setOnClickListener {
+
+            AddEditDiseaseDialog(requireContext(), object : AddEditDiseaseDialogListener {
+
+                override fun onCallBack(disease: String, ailments : String) {
+
+                    var mutableDiseaseList = mutableListOf<Disease>()
+                    actualCard.date = dateSetByUser
+                    actualCard.health.diseases.forEach {
+                        mutableDiseaseList.add(it)
+                    }
+                    mutableDiseaseList.add(Disease(disease, ailments))
+                    actualCard.health.diseases = mutableDiseaseList
+                    FirestoreClass().addHealth(actualCard)
+                }
+
+            }).show()
+
+        }
     }
 
-    fun setMoodAdapter()
+    fun setMoodAndDiseaseAdapter()
     {
         rv_mood.adapter = mMoodAdapter
         rv_mood.layoutManager = LinearLayoutManager(context)
-    }
-
-    fun setDisease()
-    {
         rv_disease.adapter = mDiseaseAdapter
         rv_disease.layoutManager = LinearLayoutManager(context)
     }
+
+
 
 }

@@ -8,7 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.rafalbiarda.medcinedontforgetversion8.ui.MainActivity
+import com.rafalbiarda.medcinedontforgetversion8.ui.activity.MainActivity
 import com.rafalbiarda.medcinedontforgetversion8.R
 
 class SplashScreenActivity : AppCompatActivity() {

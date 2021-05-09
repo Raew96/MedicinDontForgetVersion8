@@ -14,20 +14,16 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <!--END-->
-<string name="err_msg_enter_medicine_name">Please enter medicine name</string>
-
-
-
-
+    <string name="err_msg_enter_medicine_name">Please enter medicine name</string>
 
 
     <string-array name="units">
-        <item>tabletka</item>
-        <item>ampulka</item>
-        <item>czopek</item>
-        <item>kropla</item>
-        <item>lyzeczka</item>
-        <item>zastrzyk</item>
+        <item>pill</item>
+        <item>ampoule</item>
+        <item>suppository</item>
+        <item>drop</item>
+        <item>spoon</item>
+        <item>injection</item>
     </string-array>
 
 </resources>

@@ -1,22 +1,14 @@
 package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.User
-import com.rafalbiarda.medcinedontforgetversion8.util.Constants
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.User
 import com.rafalbiarda.medcinedontforgetversion8.util.GlideLoader
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
@@ -46,8 +38,7 @@ class ProfileFragment : BaseFragment() {
 
         btn_change_pin.setOnClickListener {
            // FirestoreClass().testing()
-            FirebaseAuth.getInstance().signOut()
-            showToast("Sign out")
+
         }
     }
 

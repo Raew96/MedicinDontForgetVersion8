@@ -16,8 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.User
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.User
 import com.rafalbiarda.medcinedontforgetversion8.util.Constants
 import com.rafalbiarda.medcinedontforgetversion8.util.GlideLoader
 import kotlinx.android.synthetic.main.fragment_edit_profile.*

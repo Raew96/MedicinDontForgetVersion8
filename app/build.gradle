@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+
     //Firestore
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     implementation 'com.google.firebase:firebase-firestore-ktx'
@@ -75,4 +76,8 @@ dependencies {
 
     //SmileRating
     implementation 'com.github.sujithkanna:smileyrating:2.0.0'
+
+    //PinLock
+    implementation 'com.andrognito.pinlockview:pinlockview:2.1.0'
+
 }

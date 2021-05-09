@@ -18,6 +18,10 @@
         <item
             android:id="@+id/reportFragment"
             android:title="Your Reports" />
+
+        <item
+            android:id="@+id/loginFragment"
+            android:title="Logout"/>
     </group>
 
 </menu>

@@ -1,20 +1,14 @@
 package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.User
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.User
 import kotlinx.android.synthetic.main.fragment_register.*
 
 

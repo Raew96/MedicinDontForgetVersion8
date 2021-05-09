@@ -9,10 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.DoctorListAdapter
-import com.rafalbiarda.medcinedontforgetversion8.adapters.MedicineListAdapter
-import com.rafalbiarda.medcinedontforgetversion8.models.Medicine
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
+import com.rafalbiarda.medcinedontforgetversion8.util.adapters.DoctorListAdapter
+import com.rafalbiarda.medcinedontforgetversion8.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_doctors_list.*
 
 

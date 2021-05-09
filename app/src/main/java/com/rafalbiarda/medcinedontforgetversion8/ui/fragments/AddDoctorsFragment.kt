@@ -3,18 +3,10 @@ package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.MedicineListAdapter
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.Doctor
-import com.rafalbiarda.medcinedontforgetversion8.models.Medicine
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.Doctor
 import kotlinx.android.synthetic.main.fragment_add_doctor.*
-import kotlinx.android.synthetic.main.fragment_doctors_list.*
 
 
 class AddDoctorsFragment : BaseFragment() {

@@ -2,20 +2,24 @@ package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.firestore.FirestoreClass
-import com.rafalbiarda.medcinedontforgetversion8.models.User
+import com.rafalbiarda.medcinedontforgetversion8.firebase.FirestoreClass
+import com.rafalbiarda.medcinedontforgetversion8.model.User
+import com.rafalbiarda.medcinedontforgetversion8.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.et_email
 import kotlinx.android.synthetic.main.fragment_login.et_password
 
 class LoginFragment : BaseFragment(), View.OnClickListener {
+
+    lateinit var viewModel: MainViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +30,8 @@ class LoginFragment : BaseFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         tv_register.setOnClickListener(this)
         btn_login.setOnClickListener(this)
@@ -107,6 +113,9 @@ class LoginFragment : BaseFragment(), View.OnClickListener {
         }
         else
         {
+            viewModel.setUserCards()
+            viewModel.setUserMedicineList()
+            viewModel.setUserDoctorList()
             findNavController().navigate(R.id.action_loginFragment_to_medicineFragment)
         }
     }

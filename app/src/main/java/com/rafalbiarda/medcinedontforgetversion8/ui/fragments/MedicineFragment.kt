@@ -1,7 +1,6 @@
 package com.rafalbiarda.medcinedontforgetversion8.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafalbiarda.medcinedontforgetversion8.R
-import com.rafalbiarda.medcinedontforgetversion8.adapters.ReminderAdapter
-import com.rafalbiarda.medcinedontforgetversion8.models.*
-import com.rafalbiarda.medcinedontforgetversion8.viewmodels.MainViewModel
-import kotlinx.android.synthetic.main.fragment_add_medicine.*
+import com.rafalbiarda.medcinedontforgetversion8.util.adapters.ReminderAdapter
+import com.rafalbiarda.medcinedontforgetversion8.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_medicine.*
-import java.util.*
 
 
 class MedicineFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
 
-    private val mAdapter by lazy { ReminderAdapter() }
+    private val mAdapter by lazy { ReminderAdapter(requireContext(), this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,21 +35,15 @@ class MedicineFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         setRecyclerViewAdapter()
-        /*val med = Medicine(null, "Cetonal", "Aspirix", "Take always before eat", 60, 2, "tables")
 
-        val list = mutableListOf<MedicineReminder>()
-        list.add(MedicineReminder(Calendar.getInstance().time, "1", med))
-        list.add(MedicineReminder(Calendar.getInstance().time, "2", med))
-        list.add(MedicineReminder(Calendar.getInstance().time, "3", med))
-
-        val adapter = ReminderAdapter(list)
-
-        recyclerView.layoutManager= LinearLayoutManager(context)
-        recyclerView.adapter = adapter*/
-
-        viewModel.redmindersMeds.observe(viewLifecycleOwner, { thiss->
+        viewModel.actualCard.observe(viewLifecycleOwner, { thiss->
             mAdapter.setData(thiss)
         })
+
+        viewModel.userCards.observe(viewLifecycleOwner, {
+           activity?.main_single_row_calendar?.select(0)
+        })
+
 
 
         fab.setOnClickListener {
